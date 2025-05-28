@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>sdk_params</key>
+	<dict>
+		<key>use_ui_scene</key>
+		<true/>
+		<key>api_key</key>
+		<string>ADD_YOUR_API_KEY_TO_HERE</string>
+	</dict>
+	<key>location_max_active_region</key>
+	<string></string>
+	<key>in_app_message_settings</key>
+	<dict>
+		<key>TextColor</key>
+		<string>{hexcolor. For ex-&gt; 16777215}</string>
+		<key>TitleColor</key>
+		<string>{hexcolor. For ex-&gt; 16777215}</string>
+		<key>BackgroundColor</key>
+		<string>{hexcolor. For ex-&gt; 16777215}</string>
+		<key>CancelButtonBackgroundColor</key>
+		<string>{hexcolor. For ex-&gt; 16777215}</string>
+		<key>TitleFont</key>
+		<string>{font family name. ex -&gt; ariel}</string>
+		<key>TextFont</key>
+		<string>{font family name. ex -&gt; ariel}</string>
+		<key>CancelButtonRadius</key>
+		<string>{10 sd px}</string>
+		<key>ShadowOpacity</key>
+		<string>{0-1}</string>
+		<key>BottomPaddingRatio</key>
+		<string>{between 0.01 - 1}</string>
+		<key>CancelButtonImage</key>
+		<string>{imagename}</string>
+	</dict>
+	<key>blacklist_screen_names</key>
+	<array/>
+</dict>
+</plist>
