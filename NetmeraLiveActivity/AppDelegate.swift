@@ -28,6 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         */
         if #available(iOS 17.2, *) {
           LiveActivityManager.shared.registerForMatchScoreActivity()
+          LiveActivityManager.shared.registerForShakeAndWinActivity()
         }
 
         /*
@@ -37,6 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         */
         if #available(iOS 16.1, *) {
           Netmera.resumeObservingActivities(ofType: Activity<MatchScoreAttributes>.self)
+          Netmera.resumeObservingActivities(ofType: Activity<ShakeAndWinAttributes>.self)
         }
        
         return true

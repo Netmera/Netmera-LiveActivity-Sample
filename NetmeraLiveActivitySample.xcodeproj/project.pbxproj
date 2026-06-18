@@ -10,18 +10,16 @@
 		A51918612DDD30B100D4A810 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A51918602DDD30B100D4A810 /* WidgetKit.framework */; };
 		A51918632DDD30B100D4A810 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A51918622DDD30B100D4A810 /* SwiftUI.framework */; };
 		A51918702DDD30B400D4A810 /* NetmeraLiveActivitySampleWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A519185E2DDD30B100D4A810 /* NetmeraLiveActivitySampleWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		A5B973112DDCDAAC00122D39 /* NetmeraAdvertisingId in Frameworks */ = {isa = PBXBuildFile; productRef = A5B973102DDCDAAC00122D39 /* NetmeraAdvertisingId */; };
-		A5B973132DDCDAAC00122D39 /* NetmeraAnalytic in Frameworks */ = {isa = PBXBuildFile; productRef = A5B973122DDCDAAC00122D39 /* NetmeraAnalytic */; };
-		A5B973152DDCDAAC00122D39 /* NetmeraAnalyticAutotracking in Frameworks */ = {isa = PBXBuildFile; productRef = A5B973142DDCDAAC00122D39 /* NetmeraAnalyticAutotracking */; };
-		A5B973172DDCDAAC00122D39 /* NetmeraCore in Frameworks */ = {isa = PBXBuildFile; productRef = A5B973162DDCDAAC00122D39 /* NetmeraCore */; };
-		A5B973192DDCDAAC00122D39 /* NetmeraGeofence in Frameworks */ = {isa = PBXBuildFile; productRef = A5B973182DDCDAAC00122D39 /* NetmeraGeofence */; };
-		A5B9731B2DDCDAAC00122D39 /* NetmeraLiveActivity in Frameworks */ = {isa = PBXBuildFile; productRef = A5B9731A2DDCDAAC00122D39 /* NetmeraLiveActivity */; };
-		A5B9731D2DDCDAAC00122D39 /* NetmeraLocation in Frameworks */ = {isa = PBXBuildFile; productRef = A5B9731C2DDCDAAC00122D39 /* NetmeraLocation */; };
-		A5B9731F2DDCDAAC00122D39 /* NetmeraNotification in Frameworks */ = {isa = PBXBuildFile; productRef = A5B9731E2DDCDAAC00122D39 /* NetmeraNotification */; };
-		A5B973212DDCDAAC00122D39 /* NetmeraNotificationContentExtension in Frameworks */ = {isa = PBXBuildFile; productRef = A5B973202DDCDAAC00122D39 /* NetmeraNotificationContentExtension */; };
-		A5B973232DDCDAAC00122D39 /* NetmeraNotificationCore in Frameworks */ = {isa = PBXBuildFile; productRef = A5B973222DDCDAAC00122D39 /* NetmeraNotificationCore */; };
-		A5B973252DDCDAAC00122D39 /* NetmeraNotificationInbox in Frameworks */ = {isa = PBXBuildFile; productRef = A5B973242DDCDAAC00122D39 /* NetmeraNotificationInbox */; };
-		A5B973272DDCDAAC00122D39 /* NetmeraNotificationServiceExtension in Frameworks */ = {isa = PBXBuildFile; productRef = A5B973262DDCDAAC00122D39 /* NetmeraNotificationServiceExtension */; };
+		A53E5EA72FE150A5001EBC20 /* NetmeraAdvertisingId in Frameworks */ = {isa = PBXBuildFile; productRef = A53E5EA62FE150A5001EBC20 /* NetmeraAdvertisingId */; };
+		A53E5EA92FE150A5001EBC20 /* NetmeraAnalytic in Frameworks */ = {isa = PBXBuildFile; productRef = A53E5EA82FE150A5001EBC20 /* NetmeraAnalytic */; };
+		A53E5EAB2FE150A5001EBC20 /* NetmeraAnalyticAutotracking in Frameworks */ = {isa = PBXBuildFile; productRef = A53E5EAA2FE150A5001EBC20 /* NetmeraAnalyticAutotracking */; };
+		A53E5EAD2FE150A5001EBC20 /* NetmeraCore in Frameworks */ = {isa = PBXBuildFile; productRef = A53E5EAC2FE150A5001EBC20 /* NetmeraCore */; };
+		A53E5EAF2FE150A5001EBC20 /* NetmeraLiveActivity in Frameworks */ = {isa = PBXBuildFile; productRef = A53E5EAE2FE150A5001EBC20 /* NetmeraLiveActivity */; };
+		A53E5EB12FE150A5001EBC20 /* NetmeraNotification in Frameworks */ = {isa = PBXBuildFile; productRef = A53E5EB02FE150A5001EBC20 /* NetmeraNotification */; };
+		A53E5EB32FE150A5001EBC20 /* NetmeraNotificationContentExtension in Frameworks */ = {isa = PBXBuildFile; productRef = A53E5EB22FE150A5001EBC20 /* NetmeraNotificationContentExtension */; };
+		A53E5EB52FE150A5001EBC20 /* NetmeraNotificationCore in Frameworks */ = {isa = PBXBuildFile; productRef = A53E5EB42FE150A5001EBC20 /* NetmeraNotificationCore */; };
+		A53E5EB72FE150A5001EBC20 /* NetmeraNotificationInbox in Frameworks */ = {isa = PBXBuildFile; productRef = A53E5EB62FE150A5001EBC20 /* NetmeraNotificationInbox */; };
+		A53E5EB92FE150A5001EBC20 /* NetmeraNotificationServiceExtension in Frameworks */ = {isa = PBXBuildFile; productRef = A53E5EB82FE150A5001EBC20 /* NetmeraNotificationServiceExtension */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,18 +111,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A5B9731B2DDCDAAC00122D39 /* NetmeraLiveActivity in Frameworks */,
-				A5B973172DDCDAAC00122D39 /* NetmeraCore in Frameworks */,
-				A5B973212DDCDAAC00122D39 /* NetmeraNotificationContentExtension in Frameworks */,
-				A5B9731D2DDCDAAC00122D39 /* NetmeraLocation in Frameworks */,
-				A5B973272DDCDAAC00122D39 /* NetmeraNotificationServiceExtension in Frameworks */,
-				A5B973252DDCDAAC00122D39 /* NetmeraNotificationInbox in Frameworks */,
-				A5B973132DDCDAAC00122D39 /* NetmeraAnalytic in Frameworks */,
-				A5B973192DDCDAAC00122D39 /* NetmeraGeofence in Frameworks */,
-				A5B973112DDCDAAC00122D39 /* NetmeraAdvertisingId in Frameworks */,
-				A5B973232DDCDAAC00122D39 /* NetmeraNotificationCore in Frameworks */,
-				A5B9731F2DDCDAAC00122D39 /* NetmeraNotification in Frameworks */,
-				A5B973152DDCDAAC00122D39 /* NetmeraAnalyticAutotracking in Frameworks */,
+				A53E5EAD2FE150A5001EBC20 /* NetmeraCore in Frameworks */,
+				A53E5EAF2FE150A5001EBC20 /* NetmeraLiveActivity in Frameworks */,
+				A53E5EB12FE150A5001EBC20 /* NetmeraNotification in Frameworks */,
+				A53E5EB52FE150A5001EBC20 /* NetmeraNotificationCore in Frameworks */,
+				A53E5EA92FE150A5001EBC20 /* NetmeraAnalytic in Frameworks */,
+				A53E5EA72FE150A5001EBC20 /* NetmeraAdvertisingId in Frameworks */,
+				A53E5EAB2FE150A5001EBC20 /* NetmeraAnalyticAutotracking in Frameworks */,
+				A53E5EB72FE150A5001EBC20 /* NetmeraNotificationInbox in Frameworks */,
+				A53E5EB92FE150A5001EBC20 /* NetmeraNotificationServiceExtension in Frameworks */,
+				A53E5EB32FE150A5001EBC20 /* NetmeraNotificationContentExtension in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -203,18 +199,16 @@
 			);
 			name = NetmeraLiveActivitySample;
 			packageProductDependencies = (
-				A5B973102DDCDAAC00122D39 /* NetmeraAdvertisingId */,
-				A5B973122DDCDAAC00122D39 /* NetmeraAnalytic */,
-				A5B973142DDCDAAC00122D39 /* NetmeraAnalyticAutotracking */,
-				A5B973162DDCDAAC00122D39 /* NetmeraCore */,
-				A5B973182DDCDAAC00122D39 /* NetmeraGeofence */,
-				A5B9731A2DDCDAAC00122D39 /* NetmeraLiveActivity */,
-				A5B9731C2DDCDAAC00122D39 /* NetmeraLocation */,
-				A5B9731E2DDCDAAC00122D39 /* NetmeraNotification */,
-				A5B973202DDCDAAC00122D39 /* NetmeraNotificationContentExtension */,
-				A5B973222DDCDAAC00122D39 /* NetmeraNotificationCore */,
-				A5B973242DDCDAAC00122D39 /* NetmeraNotificationInbox */,
-				A5B973262DDCDAAC00122D39 /* NetmeraNotificationServiceExtension */,
+				A53E5EA62FE150A5001EBC20 /* NetmeraAdvertisingId */,
+				A53E5EA82FE150A5001EBC20 /* NetmeraAnalytic */,
+				A53E5EAA2FE150A5001EBC20 /* NetmeraAnalyticAutotracking */,
+				A53E5EAC2FE150A5001EBC20 /* NetmeraCore */,
+				A53E5EAE2FE150A5001EBC20 /* NetmeraLiveActivity */,
+				A53E5EB02FE150A5001EBC20 /* NetmeraNotification */,
+				A53E5EB22FE150A5001EBC20 /* NetmeraNotificationContentExtension */,
+				A53E5EB42FE150A5001EBC20 /* NetmeraNotificationCore */,
+				A53E5EB62FE150A5001EBC20 /* NetmeraNotificationInbox */,
+				A53E5EB82FE150A5001EBC20 /* NetmeraNotificationServiceExtension */,
 			);
 			productName = NetmeraLiveActivity;
 			productReference = A5B972D82DDCDA7000122D39 /* NetmeraLiveActivitySample.app */;
@@ -248,7 +242,7 @@
 			mainGroup = A5B972CF2DDCDA7000122D39;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				A5B9730F2DDCDAAC00122D39 /* XCRemoteSwiftPackageReference "swift-sdk" */,
+				A53E5EA52FE150A5001EBC20 /* XCRemoteSwiftPackageReference "swift-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A5B972D92DDCDA7000122D39 /* Products */;
@@ -311,7 +305,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 95N24W2PH8;
+				DEVELOPMENT_TEAM = 6AW8NY58ZS;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NetmeraLiveActivityWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = NetmeraLiveActivityWidget;
@@ -323,7 +317,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = netmera.NetmeraLiveActivity.NetmeraLiveActivityWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.netmera.liveActivity.NetmeraLiveActivityWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -339,7 +333,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 95N24W2PH8;
+				DEVELOPMENT_TEAM = 6AW8NY58ZS;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NetmeraLiveActivityWidget/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = NetmeraLiveActivityWidget;
@@ -351,7 +345,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = netmera.NetmeraLiveActivity.NetmeraLiveActivityWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.netmera.liveActivity.NetmeraLiveActivityWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -365,12 +359,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = NetmeraLiveActivity/NetmeraLiveActivity.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 95N24W2PH8;
+				DEVELOPMENT_TEAM = 6AW8NY58ZS;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NetmeraLiveActivity/Info.plist;
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -382,11 +379,13 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = netmera.NetmeraLiveActivity;
+				PRODUCT_BUNDLE_IDENTIFIER = com.netmera.liveActivity;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -395,12 +394,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = NetmeraLiveActivity/NetmeraLiveActivity.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 95N24W2PH8;
+				DEVELOPMENT_TEAM = 6AW8NY58ZS;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NetmeraLiveActivity/Info.plist;
+				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				INFOPLIST_KEY_NSSupportsLiveActivitiesFrequentUpdates = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -412,11 +414,13 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = netmera.NetmeraLiveActivity;
+				PRODUCT_BUNDLE_IDENTIFIER = com.netmera.liveActivity;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -572,75 +576,65 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		A5B9730F2DDCDAAC00122D39 /* XCRemoteSwiftPackageReference "swift-sdk" */ = {
+		A53E5EA52FE150A5001EBC20 /* XCRemoteSwiftPackageReference "swift-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Netmera/swift-sdk";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 4.2.0;
+				minimumVersion = 4.22.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		A5B973102DDCDAAC00122D39 /* NetmeraAdvertisingId */ = {
+		A53E5EA62FE150A5001EBC20 /* NetmeraAdvertisingId */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = A5B9730F2DDCDAAC00122D39 /* XCRemoteSwiftPackageReference "swift-sdk" */;
+			package = A53E5EA52FE150A5001EBC20 /* XCRemoteSwiftPackageReference "swift-sdk" */;
 			productName = NetmeraAdvertisingId;
 		};
-		A5B973122DDCDAAC00122D39 /* NetmeraAnalytic */ = {
+		A53E5EA82FE150A5001EBC20 /* NetmeraAnalytic */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = A5B9730F2DDCDAAC00122D39 /* XCRemoteSwiftPackageReference "swift-sdk" */;
+			package = A53E5EA52FE150A5001EBC20 /* XCRemoteSwiftPackageReference "swift-sdk" */;
 			productName = NetmeraAnalytic;
 		};
-		A5B973142DDCDAAC00122D39 /* NetmeraAnalyticAutotracking */ = {
+		A53E5EAA2FE150A5001EBC20 /* NetmeraAnalyticAutotracking */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = A5B9730F2DDCDAAC00122D39 /* XCRemoteSwiftPackageReference "swift-sdk" */;
+			package = A53E5EA52FE150A5001EBC20 /* XCRemoteSwiftPackageReference "swift-sdk" */;
 			productName = NetmeraAnalyticAutotracking;
 		};
-		A5B973162DDCDAAC00122D39 /* NetmeraCore */ = {
+		A53E5EAC2FE150A5001EBC20 /* NetmeraCore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = A5B9730F2DDCDAAC00122D39 /* XCRemoteSwiftPackageReference "swift-sdk" */;
+			package = A53E5EA52FE150A5001EBC20 /* XCRemoteSwiftPackageReference "swift-sdk" */;
 			productName = NetmeraCore;
 		};
-		A5B973182DDCDAAC00122D39 /* NetmeraGeofence */ = {
+		A53E5EAE2FE150A5001EBC20 /* NetmeraLiveActivity */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = A5B9730F2DDCDAAC00122D39 /* XCRemoteSwiftPackageReference "swift-sdk" */;
-			productName = NetmeraGeofence;
-		};
-		A5B9731A2DDCDAAC00122D39 /* NetmeraLiveActivity */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = A5B9730F2DDCDAAC00122D39 /* XCRemoteSwiftPackageReference "swift-sdk" */;
+			package = A53E5EA52FE150A5001EBC20 /* XCRemoteSwiftPackageReference "swift-sdk" */;
 			productName = NetmeraLiveActivity;
 		};
-		A5B9731C2DDCDAAC00122D39 /* NetmeraLocation */ = {
+		A53E5EB02FE150A5001EBC20 /* NetmeraNotification */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = A5B9730F2DDCDAAC00122D39 /* XCRemoteSwiftPackageReference "swift-sdk" */;
-			productName = NetmeraLocation;
-		};
-		A5B9731E2DDCDAAC00122D39 /* NetmeraNotification */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = A5B9730F2DDCDAAC00122D39 /* XCRemoteSwiftPackageReference "swift-sdk" */;
+			package = A53E5EA52FE150A5001EBC20 /* XCRemoteSwiftPackageReference "swift-sdk" */;
 			productName = NetmeraNotification;
 		};
-		A5B973202DDCDAAC00122D39 /* NetmeraNotificationContentExtension */ = {
+		A53E5EB22FE150A5001EBC20 /* NetmeraNotificationContentExtension */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = A5B9730F2DDCDAAC00122D39 /* XCRemoteSwiftPackageReference "swift-sdk" */;
+			package = A53E5EA52FE150A5001EBC20 /* XCRemoteSwiftPackageReference "swift-sdk" */;
 			productName = NetmeraNotificationContentExtension;
 		};
-		A5B973222DDCDAAC00122D39 /* NetmeraNotificationCore */ = {
+		A53E5EB42FE150A5001EBC20 /* NetmeraNotificationCore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = A5B9730F2DDCDAAC00122D39 /* XCRemoteSwiftPackageReference "swift-sdk" */;
+			package = A53E5EA52FE150A5001EBC20 /* XCRemoteSwiftPackageReference "swift-sdk" */;
 			productName = NetmeraNotificationCore;
 		};
-		A5B973242DDCDAAC00122D39 /* NetmeraNotificationInbox */ = {
+		A53E5EB62FE150A5001EBC20 /* NetmeraNotificationInbox */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = A5B9730F2DDCDAAC00122D39 /* XCRemoteSwiftPackageReference "swift-sdk" */;
+			package = A53E5EA52FE150A5001EBC20 /* XCRemoteSwiftPackageReference "swift-sdk" */;
 			productName = NetmeraNotificationInbox;
 		};
-		A5B973262DDCDAAC00122D39 /* NetmeraNotificationServiceExtension */ = {
+		A53E5EB82FE150A5001EBC20 /* NetmeraNotificationServiceExtension */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = A5B9730F2DDCDAAC00122D39 /* XCRemoteSwiftPackageReference "swift-sdk" */;
+			package = A53E5EA52FE150A5001EBC20 /* XCRemoteSwiftPackageReference "swift-sdk" */;
 			productName = NetmeraNotificationServiceExtension;
 		};
 /* End XCSwiftPackageProductDependency section */

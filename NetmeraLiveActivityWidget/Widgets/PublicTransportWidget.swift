@@ -27,6 +27,7 @@ struct PublicTransportWidget: Widget {
                         .font(.caption)
                 }
             }
+            .colorScheme(.light)
             .padding()
             .background(Color(red: 1.0, green: 0.97, blue: 0.95))
             .cornerRadius(16)
