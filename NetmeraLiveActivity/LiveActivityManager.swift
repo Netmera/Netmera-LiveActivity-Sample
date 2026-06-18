@@ -58,8 +58,6 @@ class LiveActivityManager {
             throw LiveActivityError.activitiesNotEnabled
         }
 
-        guard matchActivity == nil else { return }
-
         let attributes = MatchScoreAttributes(netmeraGroupId: "testGroupId",
                                               homeTeamName: "Barcelona",
                                               awayTeamName: "Real Madrid",
