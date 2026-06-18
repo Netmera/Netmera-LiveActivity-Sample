@@ -8,13 +8,8 @@ Examples include:
 - Public Transport Tracking
 - Flight Tracking
 - Financial Tracking
-- Shake And Win<img width="585" height="1266" alt="IMG_2907" src="https://github.com/user-attachments/assets/a569d683-90f7-4c7d-8b6d-c893bb1107c2" />
-<img width="585" height="1266" alt="IMG_2906" src="https://github.com/user-attachments/assets/ccbf8452-3753-4d82-8c02-9895fad5a240" />
-<img width="585" height="1266" alt="IMG_2905" src="https://github.com/user-attachments/assets/2c914e47-02d3-4219-8146-4a23b94081b5" />
-<img width="585" height="1266" alt="IMG_2904" src="https://github.com/user-attachments/assets/71a0af5c-1f0d-4a86-9c6f-cd391ba43d1a" />
-<img width="585" height="1266" alt="IMG_2903" src="https://github.com/user-attachments/assets/9bd23a3d-fdff-41f9-9641-7d81bfc78f26" />
-
-
+- Shake And Win
+  
 <p align="center">
   <img src="https://github.com/user-attachments/assets/f707a71f-25e8-4980-8cbc-9f3a79281cc6" width="160"/>
   <img src="https://github.com/user-attachments/assets/a569d683-90f7-4c7d-8b6d-c893bb1107c2" width="160"/>
