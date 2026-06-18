@@ -8,13 +8,20 @@ Examples include:
 - Public Transport Tracking
 - Flight Tracking
 - Financial Tracking
+- Shake And Win<img width="585" height="1266" alt="IMG_2907" src="https://github.com/user-attachments/assets/a569d683-90f7-4c7d-8b6d-c893bb1107c2" />
+<img width="585" height="1266" alt="IMG_2906" src="https://github.com/user-attachments/assets/ccbf8452-3753-4d82-8c02-9895fad5a240" />
+<img width="585" height="1266" alt="IMG_2905" src="https://github.com/user-attachments/assets/2c914e47-02d3-4219-8146-4a23b94081b5" />
+<img width="585" height="1266" alt="IMG_2904" src="https://github.com/user-attachments/assets/71a0af5c-1f0d-4a86-9c6f-cd391ba43d1a" />
+<img width="585" height="1266" alt="IMG_2903" src="https://github.com/user-attachments/assets/9bd23a3d-fdff-41f9-9641-7d81bfc78f26" />
+
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/916a362f-27d0-4f05-832b-59cde9e5537e" width="160"/>
-  <img src="https://github.com/user-attachments/assets/37cc4dbe-52fe-4f07-a8f2-c4ca85164b87" width="160"/>
-  <img src="https://github.com/user-attachments/assets/ff4d7ca2-532a-4fe9-aacd-01961810f4f2" width="160"/>
-  <img src="https://github.com/user-attachments/assets/178d0869-8fd8-4483-be81-a60b44d6c544" width="160"/>
-  <img src="https://github.com/user-attachments/assets/5e19ae76-cf87-4d2b-9ff8-2ed57d2d277c" width="160"/>
+  <img src="https://github.com/user-attachments/assets/f707a71f-25e8-4980-8cbc-9f3a79281cc6" width="160"/>
+  <img src="https://github.com/user-attachments/assets/a569d683-90f7-4c7d-8b6d-c893bb1107c2" width="160"/>
+  <img src="https://github.com/user-attachments/assets/ccbf8452-3753-4d82-8c02-9895fad5a240" width="160"/>
+  <img src="https://github.com/user-attachments/assets/2c914e47-02d3-4219-8146-4a23b94081b5" width="160"/>
+  <img src="https://github.com/user-attachments/assets/71a0af5c-1f0d-4a86-9c6f-cd391ba43d1a" width="160"/>
+  <img src="https://github.com/user-attachments/assets/9bd23a3d-fdff-41f9-9641-7d81bfc78f26" width="160"/>
 </p>
 
 ## Requirements
