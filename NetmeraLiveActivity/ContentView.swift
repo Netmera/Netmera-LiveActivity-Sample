@@ -5,6 +5,8 @@ import NetmeraLiveActivity
 struct ContentView: View {
     @State private var errorMessage: String?
     @State private var showError = false
+    @State private var showUserIdentify = false
+    @State private var userIdInput = ""
     
     var body: some View {
         NavigationView {
@@ -68,8 +70,39 @@ struct ContentView: View {
                         endFintechActivity()
                     }
                 }
+
+                Section("Shake And Win") {
+                    Button("Start Shake And Win Activity") {
+                        startShakeAndWinActivity()
+                    }
+                    Button("Update Shake And Win Activity") {
+                        updateShakeAndWinStatus()
+                    }
+                    Button("End Shake And Win Activity") {
+                        endShakeAndWinActivity()
+                    }
+                }
             }
             .navigationTitle("Live Activities Demo")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Menu {
+                        Button("User Identify") {
+                            userIdInput = ""
+                            showUserIdentify = true
+                        }
+                    } label: {
+                        Image(systemName: "ellipsis")
+                    }
+                }
+            }
+            .alert("User Identify", isPresented: $showUserIdentify) {
+                TextField("User ID", text: $userIdInput)
+                Button("Set") { identifyUser() }
+                Button("Cancel", role: .cancel) { }
+            } message: {
+                Text("Enter your user ID")
+            }
             .alert("Error", isPresented: $showError) {
                 Button("OK", role: .cancel) { }
             } message: {
@@ -78,6 +111,12 @@ struct ContentView: View {
         }
     }
     
+    private func identifyUser() {
+        let user = NetmeraUserIdentify()
+        user.userId = userIdInput
+        Netmera.identifyUser(user)
+    }
+
     private func showError(_ message: String) {
         errorMessage = message
         showError = true
@@ -199,6 +238,35 @@ struct ContentView: View {
         }
     }
     
+    // MARK: - Shake And Win Activity
+    private func startShakeAndWinActivity() {
+        do {
+            try LiveActivityManager.shared.startShakeAndWinActivity()
+        } catch {
+            showError("Error starting shake and win activity: \(error.localizedDescription)")
+        }
+    }
+
+    private func updateShakeAndWinStatus() {
+        Task {
+            do {
+                try await LiveActivityManager.shared.updateShakeAndWinStatus()
+            } catch {
+                showError("Error updating shake and win activity: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    private func endShakeAndWinActivity() {
+        Task {
+            do {
+                try await LiveActivityManager.shared.endShakeAndWinActivity()
+            } catch {
+                showError("Error ending shake and win activity: \(error.localizedDescription)")
+            }
+        }
+    }
+
     // MARK: - Fintech Activity
     private func startFintechActivity() {
         do {

@@ -10,6 +10,7 @@ class LiveActivityManager {
     private var transportActivity: Activity<PublicTransportAttributes>?
     private var flightActivity: Activity<FlightTrackingAttributes>?
     private var fintechActivity: Activity<FintechAttributes>?
+    private var shakeAndWinActivity: Activity<ShakeAndWinAttributes>?
     
     init() {}
     
@@ -43,6 +44,12 @@ class LiveActivityManager {
         Netmera.register(forType: Activity<PublicTransportAttributes>.self,
                          name: PublicTransportAttributes.activityIdentifier)
     }
+
+    @available(iOS 17.2, *)
+    func registerForShakeAndWinActivity() {
+        Netmera.register(forType: Activity<ShakeAndWinAttributes>.self,
+                         name: ShakeAndWinAttributes.activityIdentifier)
+    }
     
     // MARK: - Match Score Activity
   
@@ -50,8 +57,6 @@ class LiveActivityManager {
         guard ActivityAuthorizationInfo().areActivitiesEnabled else {
             throw LiveActivityError.activitiesNotEnabled
         }
-
-        guard matchActivity == nil else { return }
 
         let attributes = MatchScoreAttributes(netmeraGroupId: "testGroupId",
                                               homeTeamName: "Barcelona",
@@ -269,6 +274,54 @@ class LiveActivityManager {
         
         await activity.end(nil, dismissalPolicy: .immediate)
         fintechActivity = nil
+    }
+
+    // MARK: - Shake And Win Activity
+    func startShakeAndWinActivity() throws {
+        let attributes = ShakeAndWinAttributes(
+            netmeraGroupId: "shakeWinGroup01",
+            campaignName: "Salla Kazan",
+            groupId: "shakeWinGroup01",
+            deeplink: "myapp://shakeandwin"
+        )
+        let contentState = ShakeAndWinAttributes.ContentState(
+            title: "Bu haftaki Salla Kazan'ını kaçırma!",
+            endDate: Date().addingTimeInterval(8 * 3600).timeIntervalSince1970,
+            displayLabel: "Bu Hafta",
+            statusText: "Hakkın bu hafta sona eriyor",
+            lastUpdatedText: "Az önce güncellendi"
+        )
+
+        shakeAndWinActivity = try Activity.request(
+            attributes: attributes,
+            content: .init(state: contentState, staleDate: nil),
+            pushType: nil
+        )
+    }
+
+    func updateShakeAndWinStatus() async throws {
+        guard let activity = shakeAndWinActivity else {
+            throw LiveActivityError.noActiveActivity
+        }
+
+        let updatedContentState = ShakeAndWinAttributes.ContentState(
+            title: "Bu haftaki Salla Kazan'ını kaçırma!",
+            endDate: Date().addingTimeInterval(Double.random(in: 600...3300)).timeIntervalSince1970,
+            displayLabel: "Son Şans",
+            statusText: "Hakkın bu hafta sona eriyor",
+            lastUpdatedText: "Az önce güncellendi"
+        )
+
+        await activity.update(.init(state: updatedContentState, staleDate: nil))
+    }
+
+    func endShakeAndWinActivity() async throws {
+        guard let activity = shakeAndWinActivity else {
+            throw LiveActivityError.noActiveActivity
+        }
+
+        await activity.end(nil, dismissalPolicy: .immediate)
+        shakeAndWinActivity = nil
     }
 }
 

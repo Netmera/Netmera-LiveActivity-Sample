@@ -91,4 +91,24 @@ struct FintechAttributes: ActivityAttributes, NetmeraLiveActivityAttributes {
         var isPositive: Bool
         var investmentProgress: Double
     }
-} 
+}
+
+// MARK: - Shake And Win Activity
+
+struct ShakeAndWinAttributes: ActivityAttributes, NetmeraLiveActivityAttributes {
+    var netmeraGroupId: String?
+
+    let campaignName: String
+    let groupId: String
+    let deeplink: String
+
+    public static var activityIdentifier: String = "ShakeAndWinAttributes"
+
+    public struct ContentState: Codable, Hashable {
+        let title: String
+        let endDate: Double
+        let displayLabel: String
+        let statusText: String
+        let lastUpdatedText: String
+    }
+}

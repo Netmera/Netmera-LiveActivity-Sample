@@ -27,6 +27,7 @@ struct FintechWidget: Widget {
                 ProgressView(value: context.state.investmentProgress, total: 100)
                     .tint(Color(red: 0.2, green: 0.8, blue: 0.4))
             }
+            .colorScheme(.light)
             .padding()
             .background(Color(red: 0.95, green: 0.98, blue: 0.95))
             .cornerRadius(16)

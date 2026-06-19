@@ -9,5 +9,6 @@ struct NetmeraLiveActivityWidgetBundle: WidgetBundle {
         PublicTransportWidget()
         FlightTrackingWidget()
         FintechWidget()
+        ShakeAndWinWidget()
     }
 }

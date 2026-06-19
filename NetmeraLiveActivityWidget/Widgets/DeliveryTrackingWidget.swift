@@ -31,6 +31,7 @@ struct DeliveryTrackingWidget: Widget {
                 ProgressView(value: Double(5 - context.state.remainingStops), total: 5)
                     .tint(Color(red: 0.4, green: 0.6, blue: 0.9))
             }
+            .colorScheme(.light)
             .padding()
             .background(Color(red: 0.95, green: 0.97, blue: 1.0))
             .cornerRadius(16)
