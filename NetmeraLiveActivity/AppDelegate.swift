@@ -40,6 +40,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
           Netmera.resumeObservingActivities(ofType: Activity<MatchScoreAttributes>.self)
           Netmera.resumeObservingActivities(ofType: Activity<ShakeAndWinAttributes>.self)
         }
+
+        // Shake & Win is started/ended by the backend; phase changes are handled locally.
+        // BG task registration must happen before launch finishes.
+        LiveActivityManager.shared.registerShakeAndWinBackgroundRefresh()
+        LiveActivityManager.shared.startObservingShakeAndWinActivities()
        
         return true
     }

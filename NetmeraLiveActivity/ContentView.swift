@@ -1,6 +1,7 @@
 import SwiftUI
 import ActivityKit
 import NetmeraLiveActivity
+import NetmeraCore
 
 struct ContentView: View {
     @State private var errorMessage: String?

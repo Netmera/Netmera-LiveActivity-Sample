@@ -109,6 +109,59 @@ struct ShakeAndWinAttributes: ActivityAttributes, NetmeraLiveActivityAttributes 
         let endDate: Double
         let displayLabel: String
         let statusText: String
-        let lastUpdatedText: String
+        var lastUpdatedText: String
+    }
+}
+
+/// Display ladder for the remaining time, derived from `endDate` at render time.
+///
+///   > 30 min  → fixed "1 sa 1 dk" snapshot of the remaining time, dark
+///   15–30 min → snapshot again ("30 dk" at the step), orange
+///   0–15 min  → live mm:ss countdown, red   — iOS ticks it every second
+///   0         → "Süre doldu" (and the activity is dismissed)
+///
+/// Shared by the widget (what to draw) and the app (when the next re-render is needed).
+public enum ShakeAndWinStage: Equatable {
+    case remaining
+    case halfHour
+    case countdown
+    case ended
+
+    /// `tolerance` lets a render that fires a hair before a boundary land on the new stage.
+    public static func at(endDate: Date, now: Date = Date(), tolerance: TimeInterval = 2) -> ShakeAndWinStage {
+        let remaining = endDate.timeIntervalSince(now) - tolerance
+        if remaining <= 0      { return .ended }
+        if remaining <= 900    { return .countdown }
+        if remaining <= 1800   { return .halfHour }
+        return .remaining
+    }
+
+    /// Static label, or nil when the live timer should be shown instead.
+    /// For `.remaining` and `.halfHour` it is a snapshot of the time left at render — e.g. "8 sa",
+    /// "1 sa 1 dk", "32 dk" — which reads "30 dk" when the orange step fires at its boundary, and the
+    /// true value (e.g. "20 dk") when an activity is started inside that window.
+    public func label(endDate: Date, now: Date = Date()) -> String? {
+        switch self {
+        case .remaining, .halfHour:
+            let minutes = max(1, Int((endDate.timeIntervalSince(now) / 60).rounded(.up)))
+            let h = minutes / 60, m = minutes % 60
+            switch (h, m) {
+            case (0, _): return "\(m) dk"
+            case (_, 0): return "\(h) sa"
+            default:     return "\(h) sa \(m) dk"
+            }
+        case .countdown: return nil
+        case .ended:     return "Süre doldu"
+        }
+    }
+
+    /// The moment this stage ends and the next one should be drawn.
+    public func nextTransition(endDate: Date) -> Date? {
+        switch self {
+        case .remaining: return endDate.addingTimeInterval(-1800)
+        case .halfHour:  return endDate.addingTimeInterval(-900)
+        case .countdown: return endDate
+        case .ended:     return nil
+        }
     }
 }

@@ -2,13 +2,9 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSSupportsLiveActivities</key>
-	<true/>
-	<key>NSSupportsLiveActivitiesFrequentUpdates</key>
-	<true/>
-	<key>UIBackgroundModes</key>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
-		<string>remote-notification</string>
+		<string>com.netmera.liveActivity.shakeAndWinRefresh</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
@@ -27,5 +23,10 @@
 			</array>
 		</dict>
 	</dict>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+		<string>fetch</string>
+	</array>
 </dict>
 </plist>

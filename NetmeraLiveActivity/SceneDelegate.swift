@@ -15,4 +15,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = window
         window.makeKeyAndVisible()
     }
+
+    func sceneDidBecomeActive(_ scene: UIScene) {
+        // Local refresh of a running Shake & Win activity — no push needed.
+        Task {
+            await LiveActivityManager.shared.refreshShakeAndWinActivityIfNeeded()
+        }
+    }
 }

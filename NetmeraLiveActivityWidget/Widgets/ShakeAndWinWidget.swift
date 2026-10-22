@@ -6,28 +6,30 @@ struct ShakeAndWinWidget: Widget {
 
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: ShakeAndWinAttributes.self) { context in
-            let remaining = context.state.endDate - Date().timeIntervalSince1970
-            let isUrgent  = remaining > 0 && remaining < 3600
+            // The view is rendered at start, at each `staleDate` (armed by LiveActivityManager at the
+            // next stage boundary) and at each local update, so deriving the stage from the clock here
+            // is correct at every render. The label is a fixed snapshot until the last 15 minutes,
+            // where the system timer takes over and ticks on its own.
+            let end    = Date(timeIntervalSince1970: context.state.endDate)
+            let stage  = ShakeAndWinStage.at(endDate: end)
+            let accent = accentColor(for: stage)
 
             VStack(alignment: .leading, spacing: 8) {
-                // Top row: icon + campaign name + displayLabel + countdown
+                // Top row: icon + campaign name + displayLabel badge
                 HStack(alignment: .center) {
                     Image(systemName: "iphone.radiowaves.left.and.right")
                         .font(.system(size: 15, weight: .semibold))
-                        .foregroundColor(isUrgent ? Color(red: 0.85, green: 0.15, blue: 0.1) : Color(red: 1.0, green: 0.55, blue: 0.0))
+                        .foregroundColor(accent)
                     Text(context.attributes.campaignName)
                         .font(.system(size: 14, weight: .bold))
                         .foregroundColor(Color(red: 0.12, green: 0.08, blue: 0.04))
                     Spacer()
                     Text(context.state.displayLabel)
                         .font(.system(size: 11, weight: .semibold))
-                        .foregroundColor(isUrgent ? Color(red: 0.85, green: 0.15, blue: 0.1) : Color(red: 1.0, green: 0.55, blue: 0.0))
+                        .foregroundColor(accent)
                         .padding(.horizontal, 8)
                         .padding(.vertical, 3)
-                        .background(
-                            (isUrgent ? Color(red: 0.85, green: 0.15, blue: 0.1) : Color(red: 1.0, green: 0.55, blue: 0.0))
-                                .opacity(0.12)
-                        )
+                        .background(accent.opacity(0.12))
                         .cornerRadius(12)
                 }
 
@@ -37,7 +39,7 @@ struct ShakeAndWinWidget: Widget {
                     .foregroundColor(Color(red: 0.12, green: 0.08, blue: 0.04))
                     .lineLimit(2)
 
-                // Bottom row: statusText + countdown + lastUpdatedText
+                // Bottom row: statusText + lastUpdatedText | remaining time
                 HStack(alignment: .bottom) {
                     VStack(alignment: .leading, spacing: 2) {
                         Text(context.state.statusText)
@@ -49,30 +51,38 @@ struct ShakeAndWinWidget: Widget {
                     }
                     Spacer()
                     VStack(alignment: .trailing, spacing: 1) {
-                        Text(countdownText(from: context.state.endDate))
+                        remainingView(stage: stage, endDate: end)
                             .font(.system(size: 22, weight: .bold, design: .rounded))
-                            .foregroundColor(isUrgent ? Color(red: 0.85, green: 0.15, blue: 0.1) : Color(red: 0.12, green: 0.08, blue: 0.04))
+                            .foregroundColor(textColor(for: stage))
                             .minimumScaleFactor(0.6)
                             .lineLimit(1)
-                        Text("kaldı")
-                            .font(.system(size: 10))
-                            .foregroundColor(Color(red: 0.4, green: 0.3, blue: 0.2))
+                        if stage != .ended {
+                            Text("kaldı")
+                                .font(.system(size: 10))
+                                .foregroundColor(Color(red: 0.4, green: 0.3, blue: 0.2))
+                        }
                     }
                 }
             }
             .colorScheme(.light)
             .padding(.horizontal, 16)
             .padding(.vertical, 12)
-            .background(isUrgent ? Color(red: 1.0, green: 0.94, blue: 0.93) : Color(red: 1.0, green: 0.96, blue: 0.88))
+            .background(backgroundColor(for: stage))
             .cornerRadius(16)
-            .activityBackgroundTint(isUrgent ? Color(red: 1.0, green: 0.94, blue: 0.93) : Color(red: 1.0, green: 0.96, blue: 0.88))
-            .activitySystemActionForegroundColor(isUrgent ? Color(red: 0.85, green: 0.15, blue: 0.1) : Color(red: 1.0, green: 0.55, blue: 0.0))
+            .activityBackgroundTint(backgroundColor(for: stage))
+            .activitySystemActionForegroundColor(accent)
+            .widgetURL(URL(string: context.attributes.deeplink))
+
         } dynamicIsland: { context in
-            DynamicIsland {
+            let end    = Date(timeIntervalSince1970: context.state.endDate)
+            let stage  = ShakeAndWinStage.at(endDate: end)
+            let accent = accentColor(for: stage)
+
+            return DynamicIsland {
                 DynamicIslandExpandedRegion(.leading) {
                     HStack(spacing: 6) {
                         Image(systemName: "iphone.radiowaves.left.and.right")
-                            .foregroundColor(Color(red: 1.0, green: 0.55, blue: 0.0))
+                            .foregroundColor(accent)
                         VStack(alignment: .leading, spacing: 2) {
                             Text(context.attributes.campaignName)
                                 .font(.caption)
@@ -85,12 +95,15 @@ struct ShakeAndWinWidget: Widget {
                 }
                 DynamicIslandExpandedRegion(.trailing) {
                     VStack(alignment: .trailing, spacing: 2) {
-                        Text(countdownText(from: context.state.endDate))
+                        remainingView(stage: stage, endDate: end)
                             .font(.title3)
                             .bold()
-                        Text("kaldı")
-                            .font(.caption2)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(islandTextColor(for: stage))
+                        if stage != .ended {
+                            Text("kaldı")
+                                .font(.caption2)
+                                .foregroundColor(.secondary)
+                        }
                     }
                 }
                 DynamicIslandExpandedRegion(.center) {
@@ -101,34 +114,80 @@ struct ShakeAndWinWidget: Widget {
                 }
             } compactLeading: {
                 Image(systemName: "iphone.radiowaves.left.and.right")
-                    .foregroundColor(Color(red: 1.0, green: 0.55, blue: 0.0))
+                    .foregroundColor(accent)
             } compactTrailing: {
-                Text(countdownText(from: context.state.endDate))
+                remainingView(stage: stage, endDate: end)
+                    .frame(maxWidth: 64)
                     .font(.caption2)
                     .bold()
-                    .foregroundColor(Color(red: 1.0, green: 0.55, blue: 0.0))
+                    .foregroundColor(accent)
             } minimal: {
                 Image(systemName: "iphone.radiowaves.left.and.right")
-                    .foregroundColor(Color(red: 1.0, green: 0.55, blue: 0.0))
+                    .foregroundColor(accent)
             }
+            .widgetURL(URL(string: context.attributes.deeplink))
         }
     }
 
-    private func countdownText(from endDate: Double) -> String {
-        let remaining = endDate - Date().timeIntervalSince1970
-        guard remaining > 0 else { return "Süre doldu" }
+    // MARK: - Remaining time
 
-        let total   = Int(remaining)
-        let hours   = total / 3600
-        let minutes = (total % 3600) / 60
-        let seconds = total % 60
-
-        if hours > 0 {
-            return "\(hours)s \(minutes)dk"
-        } else if minutes > 0 {
-            return "\(minutes)dk \(seconds)s"
+    /// Fixed "1 sa 1 dk" / "30 dk" / "Süre doldu" label, or the live mm:ss timer in the last 15 minutes.
+    @ViewBuilder
+    private func remainingView(stage: ShakeAndWinStage, endDate: Date) -> some View {
+        if let label = stage.label(endDate: endDate) {
+            Text(label)
         } else {
-            return "\(seconds)s"
+            let now = Date()
+            Text(timerInterval: now...max(now, endDate), countsDown: true)
+                .monospacedDigit()
+                .multilineTextAlignment(.trailing)
+        }
+    }
+
+    // MARK: - Colours
+
+    private let brandOrange = Color(red: 1.0,  green: 0.55, blue: 0.0)
+    private let darkText    = Color(red: 0.12, green: 0.08, blue: 0.04)
+    private let orange      = Color(red: 0.95, green: 0.45, blue: 0.0)
+    private let red         = Color(red: 0.85, green: 0.15, blue: 0.1)
+    private let grey        = Color(red: 0.45, green: 0.40, blue: 0.35)
+
+    /// Icon / badge colour.
+    private func accentColor(for stage: ShakeAndWinStage) -> Color {
+        switch stage {
+        case .remaining:     return brandOrange
+        case .halfHour:  return orange
+        case .countdown: return red
+        case .ended:     return grey
+        }
+    }
+
+    /// Remaining-time text on the Lock Screen: dark → orange (30 dk) → red (timer).
+    private func textColor(for stage: ShakeAndWinStage) -> Color {
+        switch stage {
+        case .remaining:     return darkText
+        case .halfHour:  return orange
+        case .countdown: return red
+        case .ended:     return grey
+        }
+    }
+
+    /// Same ladder on the Island's dark background (primary instead of dark brown).
+    private func islandTextColor(for stage: ShakeAndWinStage) -> Color {
+        switch stage {
+        case .remaining:     return .primary
+        case .halfHour:  return orange
+        case .countdown: return red
+        case .ended:     return .secondary
+        }
+    }
+
+    private func backgroundColor(for stage: ShakeAndWinStage) -> Color {
+        switch stage {
+        case .remaining:     return Color(red: 1.0,  green: 0.96, blue: 0.88)
+        case .halfHour:  return Color(red: 1.0,  green: 0.95, blue: 0.88)
+        case .countdown: return Color(red: 1.0,  green: 0.94, blue: 0.93)
+        case .ended:     return Color(red: 0.95, green: 0.94, blue: 0.92)
         }
     }
 }

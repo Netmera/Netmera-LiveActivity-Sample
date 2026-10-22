@@ -1,6 +1,7 @@
 import NetmeraLiveActivity
 import NetmeraCore
 import ActivityKit
+import BackgroundTasks
 
 class LiveActivityManager {
     static let shared = LiveActivityManager()
@@ -277,6 +278,171 @@ class LiveActivityManager {
     }
 
     // MARK: - Shake And Win Activity
+    //
+    // Lifecycle: the backend STARTS the activity (push-to-start, handled by Netmera via
+    // register(forType:) / resumeObservingActivities) and may END it. No update pushes.
+    //
+    // Display ladder (see ShakeAndWinStage): fixed "1 sa 1 dk" snapshot (dark) → "30 dk" in
+    // orange from -30 min → live mm:ss timer for the last 15 min (red) → dismissed at endDate.
+    //
+    // How the steps happen on-device:
+    //  * The widget derives the stage (label, colour) from the clock whenever it is rendered.
+    //  * Every update arms `staleDate` at the NEXT stage boundary; iOS re-renders there on its
+    //    own, so the first boundary after any update is always on time.
+    //  * iOS grants only that one timed re-render per update, so `refreshShakeAndWinActivityIfNeeded()`
+    //    re-arms the chain whenever it gets to run: app foreground, and a BGAppRefreshTask
+    //    requested for each boundary (best effort — iOS decides if/when it runs).
+    //  * Once in the final 15 min, we `end(…, dismissalPolicy: .after(endDate))`: the timer keeps
+    //    ticking and iOS removes the activity at exactly endDate with no code running.
+
+    static let shakeAndWinRefreshTaskId = "com.netmera.liveActivity.shakeAndWinRefresh"
+
+    /// Guarantees dismissal at endDate by ending the activity early (display continues until then).
+    /// Trade-off: a backend end push can no longer remove it during the last 15 minutes.
+    /// Set to false if the backend's early end must win even in that window.
+    var shakeAndWinAutoDismissesAtEnd = true
+
+    private var shakeAndWinObserver: Task<Void, Never>?
+
+    /// The in-memory reference is lost on relaunch; fall back to the system's list so
+    /// update/end keep working after the app was killed while the activity was still shown.
+    private var currentShakeAndWinActivity: Activity<ShakeAndWinAttributes>? {
+        if let shakeAndWinActivity, shakeAndWinActivity.activityState == .active {
+            return shakeAndWinActivity
+        }
+        let recovered = Activity<ShakeAndWinAttributes>.activities.first { $0.activityState == .active }
+        shakeAndWinActivity = recovered
+        return recovered
+    }
+
+    // MARK: Observation (backend-started activities)
+
+    /// Call once at launch. Adopts activities the backend started via push-to-start
+    /// (and any already running), arms their local schedule, and drops the reference
+    /// when the backend ends one.
+    func startObservingShakeAndWinActivities() {
+        guard shakeAndWinObserver == nil else { return }
+
+        for activity in Activity<ShakeAndWinAttributes>.activities {
+            adoptShakeAndWinActivity(activity)
+        }
+
+        // Push-to-start launches the app in the background, so this fires for new ones.
+        shakeAndWinObserver = Task {
+            for await activity in Activity<ShakeAndWinAttributes>.activityUpdates {
+                adoptShakeAndWinActivity(activity)
+            }
+        }
+    }
+
+    private func adoptShakeAndWinActivity(_ activity: Activity<ShakeAndWinAttributes>) {
+        guard activity.activityState == .active else { return }
+        shakeAndWinActivity = activity
+
+        Task {
+            // The push-to-start payload normally carries no stale-date; arm our schedule now.
+            await refreshShakeAndWinActivityIfNeeded(force: true)
+        }
+
+        Task {
+            for await state in activity.activityStateUpdates where state != .active {
+                if shakeAndWinActivity?.id == activity.id {
+                    shakeAndWinActivity = nil
+                    BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: Self.shakeAndWinRefreshTaskId)
+                }
+                break
+            }
+        }
+    }
+
+    // MARK: Local schedule
+
+    /// Content with `staleDate` armed at the next stage boundary.
+    private func shakeAndWinContent(_ state: ShakeAndWinAttributes.ContentState)
+        -> ActivityContent<ShakeAndWinAttributes.ContentState> {
+        let end = Date(timeIntervalSince1970: state.endDate)
+        let stage = ShakeAndWinStage.at(endDate: end)
+        return .init(state: state, staleDate: stage.nextTransition(endDate: end))
+    }
+
+    /// Single local entry point (foreground, BG refresh, adoption).
+    /// Re-arms `staleDate` when the armed boundary has passed (or `force`), hands the final
+    /// 15 minutes to iOS for timed dismissal, and ends anything already expired.
+    func refreshShakeAndWinActivityIfNeeded(force: Bool = false) async {
+        guard let activity = currentShakeAndWinActivity else {
+            print("[ShakeAndWin] refresh: no active activity")
+            return
+        }
+
+        let state = activity.content.state
+        let end = Date(timeIntervalSince1970: state.endDate)
+        let stage = ShakeAndWinStage.at(endDate: end)
+        print("[ShakeAndWin] refresh: stage=\(stage) remaining=\(Int(end.timeIntervalSinceNow))s force=\(force)")
+
+        switch stage {
+        case .ended:
+            await activity.end(nil, dismissalPolicy: .immediate)
+            shakeAndWinActivity = nil
+            return
+
+        case .countdown where shakeAndWinAutoDismissesAtEnd:
+            // Timer keeps running; iOS dismisses at endDate without us.
+            var final = state
+            final.lastUpdatedText = "Az önce güncellendi"
+            await activity.end(shakeAndWinContent(final), dismissalPolicy: .after(end))
+            shakeAndWinActivity = nil
+            BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: Self.shakeAndWinRefreshTaskId)
+            return
+
+        default:
+            break
+        }
+
+        let armed = activity.content.staleDate
+        if force || armed == nil || armed! <= Date() {
+            var refreshed = state
+            refreshed.lastUpdatedText = "Az önce güncellendi"
+            await activity.update(shakeAndWinContent(refreshed))
+        }
+        scheduleShakeAndWinBackgroundRefresh(for: activity)
+    }
+
+    // MARK: Background refresh (best effort — iOS decides if/when it runs)
+
+    /// Register once in AppDelegate.didFinishLaunching, before the app finishes launching.
+    func registerShakeAndWinBackgroundRefresh() {
+        BGTaskScheduler.shared.register(forTaskWithIdentifier: Self.shakeAndWinRefreshTaskId,
+                                        using: nil) { [weak self] task in
+            guard let self, let task = task as? BGAppRefreshTask else {
+                task.setTaskCompleted(success: false)
+                return
+            }
+            print("[ShakeAndWin] BG refresh task launched")
+            let work = Task {
+                await self.refreshShakeAndWinActivityIfNeeded()
+                task.setTaskCompleted(success: true)
+            }
+            task.expirationHandler = { work.cancel() }
+        }
+    }
+
+    /// Asks iOS for a wake-up just after the next stage boundary so the chain can be re-armed.
+    private func scheduleShakeAndWinBackgroundRefresh(for activity: Activity<ShakeAndWinAttributes>) {
+        let end = Date(timeIntervalSince1970: activity.content.state.endDate)
+        guard let next = ShakeAndWinStage.at(endDate: end).nextTransition(endDate: end) else { return }
+
+        let request = BGAppRefreshTaskRequest(identifier: Self.shakeAndWinRefreshTaskId)
+        request.earliestBeginDate = max(next.addingTimeInterval(5), Date())
+        do {
+            try BGTaskScheduler.shared.submit(request)
+            print("[ShakeAndWin] BG refresh requested for \(request.earliestBeginDate!)")
+        } catch {
+            print("[ShakeAndWin] BG refresh not scheduled: \(error)")
+        }
+    }
+
+    // MARK: Manual (sample / testing only — production activities are started by the backend)
+
     func startShakeAndWinActivity() throws {
         let attributes = ShakeAndWinAttributes(
             netmeraGroupId: "shakeWinGroup01",
@@ -292,15 +458,18 @@ class LiveActivityManager {
             lastUpdatedText: "Az önce güncellendi"
         )
 
-        shakeAndWinActivity = try Activity.request(
+        // .token so the backend can still END this one; observeActivity reports the token.
+        let activity = try Activity.request(
             attributes: attributes,
-            content: .init(state: contentState, staleDate: nil),
-            pushType: nil
+            content: shakeAndWinContent(contentState),
+            pushType: .token
         )
+        Netmera.observeActivity(activity)
+        adoptShakeAndWinActivity(activity)
     }
 
     func updateShakeAndWinStatus() async throws {
-        guard let activity = shakeAndWinActivity else {
+        guard let activity = currentShakeAndWinActivity else {
             throw LiveActivityError.noActiveActivity
         }
 
@@ -312,11 +481,12 @@ class LiveActivityManager {
             lastUpdatedText: "Az önce güncellendi"
         )
 
-        await activity.update(.init(state: updatedContentState, staleDate: nil))
+        await activity.update(shakeAndWinContent(updatedContentState))
+        scheduleShakeAndWinBackgroundRefresh(for: activity)
     }
 
     func endShakeAndWinActivity() async throws {
-        guard let activity = shakeAndWinActivity else {
+        guard let activity = currentShakeAndWinActivity else {
             throw LiveActivityError.noActiveActivity
         }
 
