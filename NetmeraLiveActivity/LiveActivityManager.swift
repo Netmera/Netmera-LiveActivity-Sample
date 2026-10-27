@@ -304,13 +304,20 @@ class LiveActivityManager {
 
     private var shakeAndWinObserver: Task<Void, Never>?
 
+    /// An activity we can still update. `.stale` is a LIVE state — it is exactly what the
+    /// activity becomes when our `staleDate` fires — so it must be treated like `.active`.
+    /// Only `.ended` / `.dismissed` are terminal.
+    private static func isLive(_ state: ActivityState) -> Bool {
+        state == .active || state == .stale
+    }
+
     /// The in-memory reference is lost on relaunch; fall back to the system's list so
     /// update/end keep working after the app was killed while the activity was still shown.
     private var currentShakeAndWinActivity: Activity<ShakeAndWinAttributes>? {
-        if let shakeAndWinActivity, shakeAndWinActivity.activityState == .active {
+        if let shakeAndWinActivity, Self.isLive(shakeAndWinActivity.activityState) {
             return shakeAndWinActivity
         }
-        let recovered = Activity<ShakeAndWinAttributes>.activities.first { $0.activityState == .active }
+        let recovered = Activity<ShakeAndWinAttributes>.activities.first { Self.isLive($0.activityState) }
         shakeAndWinActivity = recovered
         return recovered
     }
@@ -336,7 +343,7 @@ class LiveActivityManager {
     }
 
     private func adoptShakeAndWinActivity(_ activity: Activity<ShakeAndWinAttributes>) {
-        guard activity.activityState == .active else { return }
+        guard Self.isLive(activity.activityState) else { return }
         shakeAndWinActivity = activity
 
         Task {
@@ -345,7 +352,9 @@ class LiveActivityManager {
         }
 
         Task {
-            for await state in activity.activityStateUpdates where state != .active {
+            // Only a terminal state drops the activity. `.stale` arrives at every staleDate
+            // boundary and must NOT stop the chain.
+            for await state in activity.activityStateUpdates where !Self.isLive(state) {
                 if shakeAndWinActivity?.id == activity.id {
                     shakeAndWinActivity = nil
                     BGTaskScheduler.shared.cancel(taskRequestWithIdentifier: Self.shakeAndWinRefreshTaskId)
